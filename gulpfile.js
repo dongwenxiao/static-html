@@ -1,15 +1,16 @@
 var
-    gulp       = require('gulp'),
-    rimraf     = require('gulp-rimraf'),
-    usemin     = require('gulp-usemin'),
-    uglify     = require("gulp-uglify"),
+    gulp = require('gulp'),
+    rimraf = require('gulp-rimraf'),
+    usemin = require('gulp-usemin'),
+    uglify = require("gulp-uglify"),
     minifyHtml = require('gulp-minify-html'),
-    minifycss  = require("gulp-minify-css"),
-    concat     = require("gulp-concat"),    
-    rev        = require('gulp-rev'),
-    imagemin   = require('gulp-imagemin'),
-    pngquant   = require('imagemin-pngquant'),
-    sourcemaps = require('gulp-sourcemaps');
+    minifycss = require("gulp-minify-css"),
+    concat = require("gulp-concat"),
+    rev = require('gulp-rev'),
+    imagemin = require('gulp-imagemin'),
+    pngquant = require('imagemin-pngquant'),
+    sourcemaps = require('gulp-sourcemaps'),
+    sequence = require('gulp-sequence');
 
 /**
  * 自定义部署目录
@@ -17,6 +18,9 @@ var
 
 var DEVELOP_PATH = './dist/';
 var SOURCE_PATH = './generate/';
+var HTML_LIST = [
+    'index.html'
+];
 
 
 
@@ -50,7 +54,7 @@ var SOURCE_PATH = './generate/';
  * 清理发布目录
  */
 gulp.task('clean', function() {
-    return gulp.src(DEVELOP_PATH, {read: false})
+    return gulp.src(DEVELOP_PATH, { read: false })
         .pipe(rimraf());
 });
 
@@ -65,11 +69,11 @@ gulp.task('clean', function() {
 /**
  * 压缩图片并拷贝
  */
-gulp.task('min-image', function () {
+gulp.task('min-image', function() {
     return gulp.src(SOURCE_PATH + 'images/**/*')
         .pipe(imagemin({
             progressive: true,
-            svgoPlugins: [{removeViewBox: false}],
+            svgoPlugins: [{ removeViewBox: false }],
             use: [pngquant()]
         }))
         .pipe(gulp.dest(DEVELOP_PATH + 'images/'));
@@ -79,31 +83,40 @@ gulp.task('min-image', function () {
 /**
  * 源代码压缩、合并、替换引用
  */
-gulp.task('usemin', function() {
-    return gulp.src(SOURCE_PATH + 'index.html')
-        .pipe(usemin({
-            html: [function() { 
-                return minifyHtml({ // 压缩html
-                    empty       : true,
-                    conditionals: true,
-                    spare       : true,
-                    cdata       : true
-                });
-            }], 
-            js : [uglify()],  // 压缩js
-            css: [minifycss()]  // 压缩css
-        }))
-        .pipe(rev())  // md5后缀
-        // .pipe(rev.manifest())
-        .pipe(gulp.dest(DEVELOP_PATH));
+HTML_LIST.forEach(function(htmlName, i) {
+    gulp.task('usemin-' + htmlName, function() {
+        return gulp.src(SOURCE_PATH + htmlName)
+            .pipe(usemin({
+                html: [function() {
+                    return minifyHtml({ // 压缩html
+                        empty: true,
+                        conditionals: true,
+                        spare: true,
+                        cdata: true
+                    });
+                }],
+                js: [uglify()], // 压缩js
+                css: [minifycss()] // 压缩css
+            }))
+            .pipe(rev()) // md5后缀
+            // .pipe(rev.manifest())
+            .pipe(gulp.dest(DEVELOP_PATH));
+    });
 });
+
+/**
+ * HTML 压缩任务队列生成
+ */
+var sequenceString = HTML_LIST.map(function(htmlName, i) {
+    return "'usemin-" + htmlName + "'";
+}).join(',');
+var sequenceTaskString = "gulp.task('usemin-sequence', sequence(" + sequenceString + "));"
+eval(sequenceTaskString);
 
 /**
  * 配置默认gulp任务
  */
 gulp.task('default', ['clean'], function() {
-    gulp.start('usemin');
+    gulp.start('usemin-sequence');
     gulp.start('min-image');
 });
-
-
