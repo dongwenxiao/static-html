@@ -18,7 +18,7 @@ var
 
 var DEVELOP_PATH = './dist/';
 var SOURCE_PATH = './generate/';
-var HTML_LIST = [
+var USEMIN_HTML_LIST = [
     'index.html'
 ];
 
@@ -83,7 +83,7 @@ gulp.task('min-image', function() {
 /**
  * 源代码压缩、合并、替换引用
  */
-HTML_LIST.forEach(function(htmlName, i) {
+USEMIN_HTML_LIST.forEach(function(htmlName, i) {
     gulp.task('usemin-' + htmlName, function() {
         return gulp.src(SOURCE_PATH + htmlName)
             .pipe(usemin({
@@ -107,7 +107,7 @@ HTML_LIST.forEach(function(htmlName, i) {
 /**
  * HTML 压缩任务队列生成
  */
-var sequenceString = HTML_LIST.map(function(htmlName, i) {
+var sequenceString = USEMIN_HTML_LIST.map(function(htmlName, i) {
     return "'usemin-" + htmlName + "'";
 }).join(',');
 var sequenceTaskString = "gulp.task('usemin-sequence', sequence(" + sequenceString + "));"
