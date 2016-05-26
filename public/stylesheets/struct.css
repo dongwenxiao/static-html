@@ -1,0 +1,23 @@
+/**
+ * 公共页面结构
+ */
+
+
+/* struct start */
+
+.container {}
+
+.container .left {
+    float: left;
+    width: 200px;
+    background: green;
+}
+
+.container .right {
+    width: 100%;
+    background: red;
+}
+
+.container .row{}
+.container .col{}
+/* struct end */

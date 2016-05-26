@@ -1,13 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var generate = require('../lib/generate');
-var generate_path = "./generate/";
 
-var views = [
-    'index',
-    'login',
-    'register'
-];
+//
+var GENERATE_PATH = "./generate/";
+
+//
+var pagesConfig = require('../config/config-pages');
+var views = pagesConfig;
+
 
 /* GET pages. */
 router
@@ -17,7 +18,7 @@ router
 
 views.forEach(function(view, i) {
     (function(view) {
-        router.get("/" + view, function(req, res) {
+        router.get("/" + view + ".html", function(req, res) {
             res.render(view);
         });
     })(view);
@@ -30,20 +31,19 @@ router
         var finishCount = 0;
         views.forEach(function(view, i) {
             res.render(view, function(err, html) {
-                generate.generateFile(view + '.html', html, generate_path, function() {
+                generate.generateFile(view + '.html', html, GENERATE_PATH, function() {
                     finishCount++;
                     if (finishCount == views.length) {
-                        res.send('generate html done! path: ' + generate_path);
+                        res.send('generate html done! path: ' + GENERATE_PATH);
                     }
                 });
             });
         });
-        // copy 静态资源
-        generate.exists('./public/', generate_path, generate.copy);
+        generate.exists('./public/', GENERATE_PATH, generate.copy);
     })
-    // 清空
+    // 清理html
     .get('/clean', function(req, res) {
-        generate.clean(generate_path, function() {});
+        generate.clean(GENERATE_PATH, function() {});
         res.send('clean done!');
     });
 

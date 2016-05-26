@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "min": "gulp"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -20,6 +21,7 @@
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-imagemin": "^2.4.0",
+    "gulp-less": "^3.1.0",
     "gulp-minify-css": "^1.2.4",
     "gulp-minify-html": "^1.0.4",
     "gulp-rev": "codemonkey-victor/gulp-rev",

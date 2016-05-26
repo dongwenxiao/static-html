@@ -10,17 +10,27 @@ var
     imagemin = require('gulp-imagemin'),
     pngquant = require('imagemin-pngquant'),
     sourcemaps = require('gulp-sourcemaps'),
-    sequence = require('gulp-sequence');
+    sequence = require('gulp-sequence'),
+    less = require('gulp-less');
+
+var configPages = require('./config/config-pages');
 
 /**
  * 自定义部署目录
  */
 
-var DEVELOP_PATH = './dist/';
+var DEPLOY_PATH = './dist/';
 var SOURCE_PATH = './generate/';
-var USEMIN_HTML_LIST = [
-    'index.html'
-];
+
+var USEMIN_HTML_LIST = configPages.map(function(page){
+    return page += '.html';
+});
+
+/*var USEMIN_HTML_LIST = [
+    'index.html',
+    'login.html',
+    '404.html'
+];*/
 
 
 
@@ -41,7 +51,7 @@ var USEMIN_HTML_LIST = [
 //         .pipe(uglify())
 //         .pipe(sourcemaps.write("./static/v/common/dist"))
 //         .pipe(sourcemaps.write())
-//         .pipe(gulp.dest(DEVELOP_PATH + "javascripts"));
+//         .pipe(gulp.dest(DEPLOY_PATH + "javascripts"));
 // });
 
 
@@ -54,7 +64,7 @@ var USEMIN_HTML_LIST = [
  * 清理发布目录
  */
 gulp.task('clean', function() {
-    return gulp.src(DEVELOP_PATH, { read: false })
+    return gulp.src(DEPLOY_PATH, { read: false })
         .pipe(rimraf());
 });
 
@@ -76,7 +86,7 @@ gulp.task('min-image', function() {
             svgoPlugins: [{ removeViewBox: false }],
             use: [pngquant()]
         }))
-        .pipe(gulp.dest(DEVELOP_PATH + 'images/'));
+        .pipe(gulp.dest(DEPLOY_PATH + 'assets/images/'));
 });
 
 
@@ -100,7 +110,7 @@ USEMIN_HTML_LIST.forEach(function(htmlName, i) {
             }))
             .pipe(rev()) // md5后缀
             // .pipe(rev.manifest())
-            .pipe(gulp.dest(DEVELOP_PATH));
+            .pipe(gulp.dest(DEPLOY_PATH));
     });
 });
 
@@ -112,6 +122,14 @@ var sequenceString = USEMIN_HTML_LIST.map(function(htmlName, i) {
 }).join(',');
 var sequenceTaskString = "gulp.task('usemin-sequence', sequence(" + sequenceString + "));"
 eval(sequenceTaskString);
+
+
+/*
+gulp.task('less', function(){
+    return gulp.src(SOURCE_PATH + 'stylesheets/style.less')
+        .pipe(less())
+        .pipe(gulp.dest(SOURCE_PATH+ 'stylesheets'));
+});*/
 
 /**
  * 配置默认gulp任务

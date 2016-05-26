@@ -1,0 +1,45 @@
+/**
+ * 全局公共类型 css class
+ */
+
+
+/* logo start */
+
+.logo {
+    display: inline-block;
+    width: 150px;
+    height: 80px;
+    background: url('../images/test.jpg') no-repeat #FB844F;
+}
+
+
+/* logo end */
+
+
+
+
+/* common start */
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden
+}
+
+.clearfix {
+    *+height: 1%;
+}
+
+
+/* common end */

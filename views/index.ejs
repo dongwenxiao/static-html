@@ -1,12 +1,16 @@
-<% include header.ejs %>
+<% include partial/header.ejs %>
 <body>
-	Hello
+	<div class="container">
+		<div class="page-index">
+			This Index Page.
+		</div>
+	</div>
 </body>
-<% include footer.ejs %>
+<% include partial/footer.ejs %>
 
 
 <script>
 	$(function(){
-		
-	})
+		xxStaticHtml.pages.index.say();
+	});
 </script>
