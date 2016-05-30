@@ -1,0 +1,19 @@
+.h1{font-size: 32px; font-weight: 600; }
+.h2{font-size: 20px; font-weight: 600; }
+.h3{font-size: 18px; font-weight: 600; }
+
+.p1{font-size:16px;font-weight: 300;}
+.p2{font-size:14px;font-weight: 300;}
+.p3{font-size:12px;font-weight: 300;}
+
+.black{color: #333;}
+.white{color: #fefefe;}
+.red{color: #c82727;}
+.green{}
+.green-light{color: #19c3b5;}
+.blue{color: #5071ed;}
+.blue-light{color: #66cdea;}
+.gary{color: #d3d3d3; }
+.gary-light{color: #e5e5e5; }
+.gary-dark{color: #666; }
+.orange{color: #fb844f}

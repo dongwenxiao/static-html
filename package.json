@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "min": "gulp"
+    "static": "node generate",
+    "static-clean": "node clean",
+    "usemin": "gulp"
   },
   "dependencies": {
     "body-parser": "~1.13.2",

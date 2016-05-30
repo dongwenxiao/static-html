@@ -7,5 +7,8 @@
 
 	// add pages logic
 	xxStaticHtml.pages = {};
+
+	// common function
+	xxStaticHtml.common = {};
 	
 }();

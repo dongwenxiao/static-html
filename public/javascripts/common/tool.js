@@ -1,0 +1,5 @@
+;
+!function(){
+	tongyi.common.tool = {
+	}
+}();
