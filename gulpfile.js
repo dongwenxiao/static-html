@@ -11,7 +11,9 @@ var
     pngquant = require('imagemin-pngquant'),
     sourcemaps = require('gulp-sourcemaps'),
     sequence = require('gulp-sequence'),
-    less = require('gulp-less');
+    less = require('gulp-less'),
+    autoprefixer = require('gulp-autoprefixer'),
+    plumber = require('gulp-plumber');
 
 var configPages = require('./config/config-pages');
 
@@ -21,10 +23,18 @@ var configPages = require('./config/config-pages');
 
 var DEPLOY_PATH = './dist/';
 var SOURCE_PATH = './generate/';
+var DEV_LESS_PATH = './public/stylesheets/less/';
+var DEV_CSS_PATH = './public/stylesheets/';
 
-var USEMIN_HTML_LIST = configPages.map(function(page){
+var USEMIN_HTML_LIST = configPages.map(function(page) {
     return page += '.html';
 });
+
+
+function onError(err) {
+    console.log('=====================')
+    console.log(err);
+}
 
 /*var USEMIN_HTML_LIST = [
     'index.html',
@@ -86,7 +96,10 @@ gulp.task('min-image', function() {
             svgoPlugins: [{ removeViewBox: false }],
             use: [pngquant()]
         }))
-        .pipe(gulp.dest(DEPLOY_PATH + 'assets/images/'));
+        .pipe(gulp.dest(DEPLOY_PATH + 'assets/images/'))
+        .pipe(plumber({
+            errorHandler: onError
+        }));
 });
 
 
@@ -110,7 +123,10 @@ USEMIN_HTML_LIST.forEach(function(htmlName, i) {
             }))
             .pipe(rev()) // md5后缀
             // .pipe(rev.manifest())
-            .pipe(gulp.dest(DEPLOY_PATH));
+            .pipe(gulp.dest(DEPLOY_PATH))
+            .pipe(plumber({
+                errorHandler: onError
+            }));
     });
 });
 
@@ -124,12 +140,25 @@ var sequenceTaskString = "gulp.task('usemin-sequence', sequence(" + sequenceStri
 eval(sequenceTaskString);
 
 
-/*
-gulp.task('less', function(){
-    return gulp.src(SOURCE_PATH + 'stylesheets/style.less')
+/**
+ * Less 编译
+ */
+gulp.task("less", function() {
+    gulp.src(DEV_LESS_PATH + "*.less")
+        // .pipe(sourcemaps.init())
         .pipe(less())
-        .pipe(gulp.dest(SOURCE_PATH+ 'stylesheets'));
-});*/
+        // .pipe(sourcemaps.write())
+        .pipe(autoprefixer({ cascade: false, browsers: ['> 1%', 'Firefox >= 10', 'Opera >= 10', 'ie >= 9', 'iOS >= 4', 'Chrome >= 10'] }))
+        .pipe(gulp.dest(DEV_CSS_PATH))
+        .pipe(plumber({
+            errorHandler: onError
+        }));
+});
+
+gulp.task("auto-less", function() {
+    gulp.watch(DEV_LESS_PATH + "*.less", ["less"]);
+});
+
 
 /**
  * 配置默认gulp任务
