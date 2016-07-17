@@ -8,7 +8,7 @@
 
 ### Feature
 
- - server 本项目服务端依托于Express
+ - server 本项目服务端依托于Express,开发过程中使用动态模板方式
  - html 碎片化开发模式(利用EJS模版减少编写重复html)
  - html、css、js代码均有清晰的结构(根据我的经验进行拆分多个文件，在打包时候轻松合并)
  - css、js 的引用地址会在打包时候自动加上版本号(```<link rel=stylesheet href="assets/css/lib.min.css?v=59bbc2f39c">```)
