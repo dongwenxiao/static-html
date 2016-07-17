@@ -34,7 +34,6 @@
     "gulp-uglify": "^1.4.1",
     "gulp-usemin": "codemonkey-victor/gulp-usemin#8eb0b1c",
     "gulp-util": "^3.0.7",
-    "imagemin-pngquant": "^4.2.2",
-    "open": "0.0.5"
+    "imagemin-pngquant": "^4.2.2"
   }
 }
