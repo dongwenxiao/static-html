@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "static": "node generate",
-    "static-clean": "node clean",
-    "usemin": "gulp"
+    "start": "node-dev ./bin/www",
+    "static": "gulp step1",
+    "dist": "gulp step2",
+    "watch-less": "gulp auto-less"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -22,18 +22,19 @@
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
-    "gulp-concat": "^2.6.0",
+    "gulp-ejs": "^2.1.2",
     "gulp-imagemin": "^2.4.0",
     "gulp-less": "^3.1.0",
     "gulp-minify-css": "^1.2.4",
     "gulp-minify-html": "^1.0.4",
-    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
     "gulp-rev": "codemonkey-victor/gulp-rev",
     "gulp-rimraf": "^0.2.0",
     "gulp-sequence": "^0.4.5",
-    "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.4.1",
     "gulp-usemin": "codemonkey-victor/gulp-usemin#8eb0b1c",
-    "imagemin-pngquant": "^4.2.2"
+    "gulp-util": "^3.0.7",
+    "imagemin-pngquant": "^4.2.2",
+    "open": "0.0.5"
   }
 }
