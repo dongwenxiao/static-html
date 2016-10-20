@@ -106,6 +106,13 @@ gulp.task('copy-assets', function(){
         .pipe(gulp.dest(STATIC_PATH));
 });
 
+/**
+ * 在dist时候，补充favcion.ico
+ */
+gulp.task('copy-assets-favicon', function(){
+    return gulp.src(['./public/favicon.ico'])
+        .pipe(gulp.dest(DEPLOY_PATH))
+});
 
 /**
  * 压缩图片用于发布
@@ -185,6 +192,7 @@ gulp.task('step1', ['clean-static'], function(){
 gulp.task('step2', ['clean-dist'], function(){
     gulp.start('usemin');
     gulp.start('min-image');
+    gulp.start('copy-assets-favicon');
 });
 
 gulp.task('default', ['step1'], function() {
