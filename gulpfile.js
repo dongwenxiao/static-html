@@ -46,8 +46,8 @@ var EJS_LIST = configPages.slice(0);
 var EJS_PATH = './views/';  
 var STATIC_PATH = './generate/';
 var DEPLOY_PATH = './dist/';
-var DEV_LESS_PATH = './public/stylesheets/less/';
-var DEV_CSS_PATH = './public/stylesheets/';
+var DEV_LESS_PATH = './public/assets/stylesheets/less/';
+var DEV_CSS_PATH = './public/assets/stylesheets/';
 
 
 /**
